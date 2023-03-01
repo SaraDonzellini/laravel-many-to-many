@@ -23,7 +23,7 @@ class ProjectController extends Controller
             'content' => 'required|min:10',
             'date' => 'required|string|min:2|max:20',
             'type_id' => 'required|exists:types,id',
-            'technologies' => 'array'
+            'technologies' => 'array|required'
         ]);
     }
 

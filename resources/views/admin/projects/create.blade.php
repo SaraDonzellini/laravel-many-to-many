@@ -48,7 +48,7 @@
                                 @else @checked($project->technologies->contains($technology->id))
                                 @endif>
                                 
-                                <label for="technologies" class="form-check-label">{{ $tech->name }}</label>
+                                <label for="technologies" class="form-check-label">{{ $technology->name }}</label>
 
 
                             </div>
