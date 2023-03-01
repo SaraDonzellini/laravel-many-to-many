@@ -41,10 +41,12 @@
 
                     </div>
                     <div class="mb-3 d-flex justify-content-between align-items-center">
-                        @foreach ($technologies as $tech)
+                        @foreach ($technologies as $technology)
                             <div class="">
-                                <input type="checkbox" class="form-check-input" name="technologies[]" id="technologies" value="{{ $tech->id }}">
-                                
+                                <input type="checkbox" class="form-check-input" name="technologies[]" id="technologies" value="{{ $technology->id }}"
+                                @if ($errors->any()) @checked(in_array($technology->id, old('technology',[])))
+                                @else @checked($project->technologies->contains($technology->id))
+                                @endif>
                                 
                                 <label for="technologies" class="form-check-label">{{ $tech->name }}</label>
 

@@ -39,6 +39,20 @@
                     </select>
 
                     </div>
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        @foreach ($technologies as $technology)
+                            <div class="">
+                                <input type="checkbox" class="form-check-input" name="technologies[]" id="technologies" value="{{ $technology->id }}"
+                                @if ($errors->any()) @checked(in_array($technology->id, old('technology',[])))
+                                @else @checked($project->technologies->contains($technology->id))
+                                @endif>
+                                
+                                <label for="technologies" class="form-check-label">{{ $technology->name }}</label>
+
+
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="mb-3">
                         <label for="content" class="form-label">Content</label>
                         <textarea class="form-control" id="content" rows="10" name="content">{{ old('content', $project->content) }}</textarea>
