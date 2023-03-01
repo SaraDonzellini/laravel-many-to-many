@@ -23,7 +23,7 @@ class ProjectController extends Controller
             'content' => 'required|min:10',
             'date' => 'required|string|min:2|max:20',
             'type_id' => 'required|exists:types,id',
-            'technologies' => 'array|required'
+            'technologies' => 'array'
         ]);
     }
 
@@ -69,7 +69,10 @@ class ProjectController extends Controller
         $data['image'] = Storage::put('uploads', $data['image']);
         $newProject->fill($data);
         $newProject->save();
-        $newProject->technologies()->sync($data['technologies']);
+        if (isset($data['technologies'])) {
+            $newProject->technologies()->sync($data['technologies']);
+        };
+        
 
         return redirect()->route('admin.projects.show', $newProject->id)->with('message', "$newProject->title has been created")->with('alert-type', 'info');
     }
@@ -125,7 +128,9 @@ class ProjectController extends Controller
 
         $newProject->fill($data);
         $newProject->save();
-        $newProject->technologies()->sync($data['technologies']);
+        if (isset($data['technologies'])) {
+            $newProject->technologies()->sync($data['technologies']);
+        };
 
         return redirect()->route('admin.projects.show', $newProject->id)->with('message', "$newProject->title has been modified")->with('alert-type', 'success');
     }
