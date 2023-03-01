@@ -15,6 +15,7 @@
                     <th scope="col">ID#</th>
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Date</th>
                     <th scope="col">
                         <a href="{{ route('admin.projects.create') }}" class="btn btn-secondary">Create new project</a>
@@ -27,6 +28,7 @@
                         <td>{{ $project->id }}</td>
                         <td>{{ $project->title }}</td>
                         <td>{{ $project->author }}</td>
+                        <td>{{ $project->type->type }}</td>
                         <td>{{ $project->date }}</td>
                         <td>
                             <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-primary">Show</a>
