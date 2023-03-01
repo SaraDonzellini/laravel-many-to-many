@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class ProjectController extends Controller
             'content' => 'required|min:10',
             'date' => 'required|string|min:2|max:20',
             'type_id' => 'required|exists:types,id',
-            'technology_id' => 'nullable'
+            'technologies' => 'array'
         ]);
     }
 
@@ -47,7 +48,7 @@ class ProjectController extends Controller
      */
     public function create(Project $project)
     {
-        return view('admin.projects.create', compact('project'), ['types' => Type::all()]);
+        return view('admin.projects.create', compact('project'), ['types' => Type::all(), 'technologies' => Technology::all()]);
     }
 
     /**
@@ -68,6 +69,7 @@ class ProjectController extends Controller
         $data['image'] = Storage::put('uploads', $data['image']);
         $newProject->fill($data);
         $newProject->save();
+        $newProject->technologies()->sync($data['tags']);
 
         return redirect()->route('admin.projects.show', $newProject->id)->with('message', "$newProject->title has been created")->with('alert-type', 'info');
     }
@@ -91,7 +93,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'), ['types' => Type::all()]);
+        return view('admin.projects.edit', compact('project'), ['types' => Type::all(), 'technologies' => Technology::all()]);
     }
 
     /**
@@ -138,7 +140,10 @@ class ProjectController extends Controller
         if (!str_starts_with($project->image, 'http')) {
             Storage::delete($project->image);
         }
+
+        $project->technologies()->sync([]);
         $project->delete();
+        
         return redirect()->route('admin.projects.index', compact('project'))->with('message', "$project->title has been deleted")->with('alert-type', 'danger');
     }
 }

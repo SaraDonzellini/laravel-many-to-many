@@ -25,6 +25,11 @@
                     <div class="card-header">
                         {{ $project->date }} - {{$project->type->type}}
                     </div>
+                    <div class="card-footer">
+                        @foreach ($project->technologies as $technology)
+                            #{{$technology->name}}
+                        @endforeach
+                    </div>
                 </div>
 
             </div>
